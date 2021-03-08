@@ -61,12 +61,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView user_profile_image;
         TextView user_name;
         TextView user_tweet_data;
+        TextView time_stamp;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             user_profile_image = itemView.findViewById(R.id.profile_image);
             user_name = itemView.findViewById(R.id.user_name);
             user_tweet_data = itemView.findViewById(R.id.tweet_detail);
+            time_stamp = itemView.findViewById(R.id.timeStamp);
+            user_profile_image.setClipToOutline(true);
         }
 
         //update the view inside of the view holder with the data
@@ -74,6 +77,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         public void bind(Tweet item) {
             user_name.setText(item.user.name);
             user_tweet_data.setText(item.body);
+            time_stamp.setText(item.getFormattedTimestamp());
             Glide.with(context).load(item.user.publicImageUrl).into(user_profile_image);
         }
     }
