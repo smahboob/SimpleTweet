@@ -3,14 +3,18 @@ package com.codepath.apps.restclienttemplate;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -28,6 +32,7 @@ public class ComposeActivity extends AppCompatActivity {
     public static final int MAX_TWEET_LENGTH = 140;
     TwitterClient client;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,31 @@ public class ComposeActivity extends AppCompatActivity {
         client = TwitterApplication.getRestClient(this);
         composeText = findViewById(R.id.editComposeText);
         tweetButton = findViewById(R.id.composeButton);
+        final TextView wordCountBox = findViewById(R.id.wordCount);
+        wordCountBox.setText("140");
+
+        //handle editing word limit
+        composeText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int currentCountLeft = 140 - composeText.getText().toString().length();
+                wordCountBox.setText(String.valueOf(currentCountLeft));
+                if(currentCountLeft < 1){
+                    wordCountBox.setText("0");
+                    composeText.setError("Maximum 140 characters allowed!");
+                    composeText.setFocusable(true);
+                }
+            }
+        });
 
         //set listener to the button
         //make an API call to TWitter to publish the tweet
