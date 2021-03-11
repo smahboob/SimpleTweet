@@ -2,7 +2,9 @@ package com.codepath.apps.restclienttemplate.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
+@Parcel
 public class User {
 
     public String id;
@@ -11,6 +13,9 @@ public class User {
     public String location;
     public String publicImageUrl;
 
+    public User(){
+
+    }
     public static User fromJSON(JSONObject jsonObject) throws JSONException {
         User user = new User();
         user.id = jsonObject.getString("id_str");

@@ -5,10 +5,12 @@ import com.codepath.apps.restclienttemplate.TimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Parcel
 public class Tweet {
 
     public String body;
@@ -23,6 +25,9 @@ public class Tweet {
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
         tweet.tweet_id = jsonObject.getLong("id");
         return tweet;
+    }
+
+    public Tweet(){
     }
 
     public static List<Tweet> listFromJsonArray(JSONArray jsonArray) throws JSONException {

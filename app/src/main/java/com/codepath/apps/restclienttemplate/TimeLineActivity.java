@@ -1,20 +1,27 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.util.Log;
-import android.widget.LinearLayout;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +36,7 @@ public class TimeLineActivity extends AppCompatActivity {
     TweetsAdapter tweetsAdapter;
     SwipeRefreshLayout swipeRefreshLayoutContainer;
     EndlessRecyclerViewScroll scrollListener;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,54 @@ public class TimeLineActivity extends AppCompatActivity {
         updateAdapters();
 
         populateHomeTimeLine();
+        loadUserInformation();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.compose_button_action_bar){
+            startActivityForResult(new Intent(this,ComposeActivity.class), 2);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 2 && resultCode == RESULT_OK){
+            //get data from the intent
+            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+            //update the recycler view
+            tweets.add(0,tweet);
+            tweetsAdapter.notifyItemInserted(0);
+        }
+    }
+
+    private void loadUserInformation(){
+        client.fetchCurrentUserInfo(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                JSONObject jsonArray = json.jsonObject;
+                try {
+                    currentUser = User.fromJSON(jsonArray);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Toast.makeText(TimeLineActivity.this, "Failed to load user information!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void handleRefreshContainer() {
