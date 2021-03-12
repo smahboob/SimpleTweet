@@ -11,6 +11,7 @@ The following **required** functionality is completed:
 - [x] User is displayed the username, name, and body for each tweet
 - [x] User is displayed the [relative timestamp](https://gist.github.com/nesquena/f786232f5ef72f6e10a7) for each tweet "8m", "7h"
 - [x] User can refresh tweets timeline by pulling down to refresh
+- [x] User can compose new tweets.
 
 The following **optional** features are implemented:
 
