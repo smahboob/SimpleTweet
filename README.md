@@ -28,9 +28,11 @@ The following **optional** features are implemented:
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
-
+### Part-1
 <img src='http://g.recordit.co/fRtst4ZGcU.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
+### Part-2
+<img src='http://g.recordit.co/81Rfi4RyiO.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 ## Open-source libraries used
