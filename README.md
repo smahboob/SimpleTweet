@@ -2,7 +2,7 @@
 
 ## User Stories
 
-The following **required** functionality is completed:
+### The following **required** functionality is completed:
 - [x] User can **sign in to Twitter** using OAuth login
 - [x]	User can **view tweets from their home timeline**
 - [x] User is displayed the username, name, and body for each tweet
@@ -19,7 +19,7 @@ The following **required** functionality is completed:
 - [x] User is using **"Twitter branded" colors and styles**
 - [x] Current User's Profile icon is displayed in the action bar.
 
-The following **optional** features are yet to be implemented:
+### The following **optional** features are yet to be implemented:
 - [ ] Links in tweets are clickable and will launch the web browser
 - [ ] User can tap a tweet to display a "detailed" view of that tweet
 - [ ] User can see embedded image media within the tweet detail view
