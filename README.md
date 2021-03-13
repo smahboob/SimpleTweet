@@ -31,6 +31,8 @@ The following **optional** features are implemented:
 - [ ] On the Twitter timeline, leverage the CoordinatorLayout to apply scrolling behavior that hides / shows the toolbar.
 ### Part-2 (Optional)
 - [x] User is using **"Twitter branded" colors and styles**
+- [x] Current User's Profile icon is displayed in the action bar.
+- [ ] User can click on their profile icon and load their profile information. 
 - [ ] User can click links in tweets launch the web browser 
 - [ ] User can **select "reply" from detail view to respond to a tweet**
 - [ ] The "Compose" action is moved to a FloatingActionButton instead of on the AppBar
