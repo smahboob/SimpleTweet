@@ -8,4 +8,7 @@
         android:title="@string/compose"
         app:showAsAction="always" />
 
+    <item android:title="Profile Image"
+        android:id="@+id/user_profile_pic_action_bar"
+        app:showAsAction="ifRoom"/>
 </menu>

@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,13 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -26,6 +33,7 @@ import org.parceler.Parcels;
 import java.util.LinkedList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import okhttp3.Headers;
 
 public class TimeLineActivity extends AppCompatActivity {
@@ -37,6 +45,7 @@ public class TimeLineActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayoutContainer;
     EndlessRecyclerViewScroll scrollListener;
     User currentUser;
+    MenuItem profileImageItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,7 @@ public class TimeLineActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        profileImageItem = menu.findItem(R.id.user_profile_pic_action_bar);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -89,7 +99,24 @@ public class TimeLineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 JSONObject jsonArray = json.jsonObject;
                 try {
+
                     currentUser = User.fromJSON(jsonArray);
+                    int radius = 30; // corner radius, higher value = more rounded
+                    int margin = 10; // crop margin, set to 0 for corners with no crop
+
+                    if (currentUser.publicImageUrl != null){
+                                Glide
+                                .with(getApplicationContext())
+                                .asBitmap()
+                                        .load(currentUser.publicImageUrl)
+                                        .transform(new RoundedCornersTransformation(radius, margin))
+                                        .into(new SimpleTarget<Bitmap>(120,120) {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                profileImageItem.setIcon(new BitmapDrawable(getResources(), resource));
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -29,7 +29,9 @@ public class ComposeActivity extends AppCompatActivity {
 
     EditText composeText;
     Button tweetButton;
-    public static final int MAX_TWEET_LENGTH = 140;
+    public static final int MAX_TWEET_LENGTH = 280;
+    public static final String MAX_TWEET_LENGTH_STRING = "280";
+
     TwitterClient client;
 
     @SuppressLint("SetTextI18n")
@@ -42,7 +44,7 @@ public class ComposeActivity extends AppCompatActivity {
         composeText = findViewById(R.id.editComposeText);
         tweetButton = findViewById(R.id.composeButton);
         final TextView wordCountBox = findViewById(R.id.wordCount);
-        wordCountBox.setText("140");
+        wordCountBox.setText(MAX_TWEET_LENGTH_STRING);
 
         //handle editing word limit
         composeText.addTextChangedListener(new TextWatcher() {
@@ -61,7 +63,7 @@ public class ComposeActivity extends AppCompatActivity {
                 wordCountBox.setText(String.valueOf(currentCountLeft));
                 if(currentCountLeft < 1){
                     wordCountBox.setText("0");
-                    composeText.setError("Maximum 140 characters allowed!");
+                    composeText.setError("Maximum 280 characters allowed!");
                     composeText.setFocusable(true);
                 }
             }
@@ -69,7 +71,6 @@ public class ComposeActivity extends AppCompatActivity {
 
         //set listener to the button
         //make an API call to TWitter to publish the tweet
-
         tweetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

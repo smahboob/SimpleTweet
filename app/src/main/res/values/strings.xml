@@ -10,5 +10,6 @@
     <string name="hintText">What\'s happening?</string>
     <string name="tweet">Tweet</string>
     <string name="compose">Compose</string>
+    <string name="image_string">Image</string>
 
 </resources>
